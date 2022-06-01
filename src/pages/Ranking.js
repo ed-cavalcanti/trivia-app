@@ -1,7 +1,7 @@
 import React from 'react';
-import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import '../css/Ranking.css';
 
 class Ranking extends React.Component {
   constructor() {
@@ -17,28 +17,23 @@ class Ranking extends React.Component {
     this.setState({ rankings: storeSorted });
   }
 
-  hashConverter = (email) => {
-    const hash = md5(email).toString();
-    return hash;
-  };
-
   render() {
     const { rankings } = this.state;
 
     return (
-      <>
+      <main className="ranking">
         <h1 data-testid="ranking-title">Ranking</h1>
         {rankings.map((e, index) => (
-          <div key={ index }>
+          <div className="ranking-form" key={ index }>
             <img src={ e.picture } alt="Player avatar" />
-            <span data-testid={ `player-name-${index - 1}` }>{ e.name }</span>
-            <span data-testid={ `player-score-${index - 1}` }>{ e.score }</span>
+            <p data-testid={ `player-name-${index}` }>{ e.name }</p>
+            <p data-testid={ `player-score-${index}` }>{ e.score }</p>
           </div>
         ))}
         <Link to="/">
           <button type="button" data-testid="btn-go-home">Login</button>
         </Link>
-      </>
+      </main>
     );
   }
 }

@@ -4,8 +4,9 @@
 }
 
 .head header {
-  background-color: rgb(50, 49, 49);
-  box-shadow: 3px 3px 3px rgb(32, 32, 32);
+  background-color: #0b578d;
+  border-bottom: solid #1e4bdf 7px;
+  box-shadow: 3px 3px 15px #1e4bdf;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -19,6 +20,8 @@
 }
 
 .picture {
+  border: solid rgb(176, 176, 176) 1px;
+  border-radius: 3px;
   height: 50px;
   margin-right: 20px;
   margin-top: 5px;

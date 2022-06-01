@@ -5,6 +5,8 @@ import Timer from '../Timer';
 import './AnswerButtons.css';
 import { updateScore, getCorrectAnswersQuantity } from '../../redux/actions';
 
+const he = require('he');
+
 class AnswerButtons extends Component {
   constructor() {
     super();
@@ -37,8 +39,6 @@ class AnswerButtons extends Component {
       const calcScore = ten + (timer * difficultyScore[difficulty]) + score;
       dispatch(updateScore(calcScore));
       dispatch(getCorrectAnswersQuantity());
-    } else {
-      return null;
     }
   }
 
@@ -81,17 +81,17 @@ class AnswerButtons extends Component {
           <div>
             <Timer timer={ timer } />
           </div>
-          <h2
+          <h3
             data-testid="question-category"
           >
             { questions[questionsIndex].category }
-          </h2>
-          <h3
+          </h3>
+          <h2
             data-testid="question-text"
           >
-            { questions[questionsIndex].question }
-          </h3>
-          <div data-testid="answer-options">
+            { he.decode(questions[questionsIndex].question) }
+          </h2>
+          <div data-testid="answer-options" className="answers">
             {
               shuffleAnswers.map((answer, index) => {
                 const correctAnswer = questions[questionsIndex].correct_answer;
@@ -106,30 +106,28 @@ class AnswerButtons extends Component {
                       onClick={ this.handleClick }
                       disabled={ timeOut }
                     >
-                      { answer }
+                      { he.decode(answer) }
                     </button>
                   );
                 }
-                if (answer !== correctAnswer) {
-                  return (
-                    <button
-                      className={ wrong }
-                      id="wrong"
-                      type="button"
-                      data-testid={ `wrong-answer-${index - 1}` }
-                      key={ index }
-                      onClick={ this.handleClick }
-                      disabled={ timeOut }
-                    >
-                      { answer }
-                    </button>
-                  );
-                }
-                return null;
+                return (
+                  <button
+                    className={ wrong }
+                    id="wrong"
+                    type="button"
+                    data-testid={ `wrong-answer-${index - 1}` }
+                    key={ index }
+                    onClick={ this.handleClick }
+                    disabled={ timeOut }
+                  >
+                    { he.decode(answer) }
+                  </button>
+                );
               })
             }
             {answered && (
               <button
+                className="next"
                 type="button"
                 data-testid="btn-next"
                 onClick={ this.handleNext }
