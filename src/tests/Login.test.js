@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
 import fetchToken from '../services/api';
+import apiMockedResult from './helpers/apiMockedResult'
 
 
 describe('Testa componente Login', () => {
@@ -29,8 +30,12 @@ describe('Testa componente Login', () => {
       "token":"f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6"
     }
   
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(token)})
+    global.fetch = jest.fn()
+      .mockResolvedValueOnce({ json: jest.fn().mockResolvedValue(token)})
+      .mockResolvedValueOnce({ json: jest.fn().mockResolvedValue(apiMockedResult)})
+
+    //    global.fetch = jest.fn()
+    //.mockResolvedValue({ json: jest.fn().mockResolvedValueOnce(token).mockResolvedValue(apiMockedResult)})
 
     const { history } = renderWithRouterAndRedux(<App />);
 
@@ -46,11 +51,9 @@ describe('Testa componente Login', () => {
 
     expect(global.fetch).toHaveBeenCalled();
 
-    await waitFor(() => expect(screen.getByText(/game/i)).toBeInTheDocument())
+    await waitFor(() => expect(history.location.pathname).toBe('/game'))
     expect(playBtn).not.toBeInTheDocument();
 
-    const { pathname } = history.location;
-    expect(pathname).toBe('/game')
 
   })
 })

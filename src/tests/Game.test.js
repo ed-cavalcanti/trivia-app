@@ -64,7 +64,7 @@ describe('Testa a página Game com um token inválido', () => {
     global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(invalidTokenMock)});
   })
 
-  it('Testa se o jogador é redirecionado para a página Login se jogar com token inválido', () => {
+  it('Testa se o jogador é redirecionado para a página Login se jogar com token inválido', async () => {
 
     const { history, debug } = renderWithRouterAndRedux(<App />)
 
@@ -76,6 +76,10 @@ describe('Testa a página Game com um token inválido', () => {
     userEvent.type(emailInput, "teste@teste.com");
     userEvent.click(playBtn);
 
-    expect(history.location.pathname).toBe('/');
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/')
+    })
+
+    // expect(history.location.pathname).toBe('/');
   })
 })

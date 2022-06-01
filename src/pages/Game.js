@@ -13,7 +13,6 @@ class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      responseCode: 0,
       questions: [],
       questionsIndex: 0,
       loading: true,
@@ -26,9 +25,15 @@ class Game extends React.Component {
   async componentDidMount() {
     const token = localStorage.getItem('token');
     const data = await fetchQuestions(token);
-    this.setState({ questions: data.results, responseCode: data.response_code }, () => {
+    const three = 3;
+    console.log(data);
+    if (data.response_code === three) {
+      return this.tokenValidation();
+    }
+    console.log('xablau');
+
+    this.setState({ questions: data.results }, () => {
       this.setState({ loading: false });
-      this.tokenValidation();
     });
 
     this.shuffleArray();
@@ -36,15 +41,11 @@ class Game extends React.Component {
   }
 
   tokenValidation = () => {
-    const { responseCode } = this.state;
     const { history, dispatch } = this.props;
-    const three = 3;
-    if (responseCode === three) {
-      localStorage.removeItem('token');
-      history.push('/');
-      dispatch(savePlayerEmail(''));
-      dispatch(savePlayerName(''));
-    }
+    localStorage.removeItem('token');
+    history.push('/');
+    dispatch(savePlayerEmail(''));
+    dispatch(savePlayerName(''));
   };
 
   shuffleArray = () => {
