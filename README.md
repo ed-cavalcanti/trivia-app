@@ -6,14 +6,6 @@ Desenvolvimento Web da Trybe. O app consiste em um jogo de perguntas e respostas
 irá responder a 5 perguntas e terá sua pontuação calculada de acordo com o tempo que ela levou para responder. Ao final das 5 perguntas
 o usuário é direcionado para tela de ranking, podendo consultar a pontuação de todos os jogadores da seção.
 
-
-
-
-## Screenshots
-
-![App Screenshot](https://uploaddeimagens.com.br/imagens/RHmEHgk)
-
-
 ## Rodando localmente
 
 Clone o projeto
